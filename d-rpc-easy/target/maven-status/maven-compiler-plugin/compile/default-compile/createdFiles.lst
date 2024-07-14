@@ -1,0 +1,12 @@
+com\dongs\drpc\model\RpcRequest$RpcRequestBuilder.class
+com\dongs\drpc\model\RpcRequest.class
+com\dongs\drpc\server\VertxHttpServer.class
+com\dongs\drpc\model\RpcResponse$RpcResponseBuilder.class
+com\dongs\drpc\serializer\JdkSerializer.class
+com\dongs\drpc\server\HttpServer.class
+com\dongs\drpc\registry\LocalRegistry.class
+com\dongs\drpc\proxy\ServiceProxy.class
+com\dongs\drpc\serializer\Serializer.class
+com\dongs\drpc\model\RpcResponse.class
+com\dongs\drpc\proxy\ServiceProxyFactory.class
+com\dongs\drpc\server\HttpServerHandler.class
