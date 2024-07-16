@@ -25,5 +25,8 @@ public class EasyConsumerExample {
         }else {
             System.out.println("newUser == null");
         }
+
+        long number = userService.getNumber();
+        System.out.println(number);
     }
 }
