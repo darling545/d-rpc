@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/d-rpc-core/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="d-rpc-core" />
         <module name="d-rpc-easy" />
         <module name="example-provider" />
         <module name="example-common" />

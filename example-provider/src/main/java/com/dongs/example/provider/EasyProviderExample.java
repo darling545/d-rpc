@@ -1,5 +1,6 @@
 package com.dongs.example.provider;
 
+import com.dongs.drpc.RpcApplication;
 import com.dongs.drpc.registry.LocalRegistry;
 import com.dongs.drpc.server.HttpServer;
 import com.dongs.drpc.server.VertxHttpServer;
@@ -9,13 +10,15 @@ public class EasyProviderExample {
 
     public static void main(String[] args) {
 
+        RpcApplication.init();
+
         // 注册服务
         LocalRegistry.registry(UserService.class.getName(),UserServiceImpl.class);
 
         // 启动服务
         HttpServer httpServer = new VertxHttpServer();
 
-        httpServer.doStart(8080);
+        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
 
 
 
