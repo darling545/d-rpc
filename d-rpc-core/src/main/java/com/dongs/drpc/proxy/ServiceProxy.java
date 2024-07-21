@@ -2,10 +2,12 @@ package com.dongs.drpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.dongs.drpc.RpcApplication;
 import com.dongs.drpc.model.RpcRequest;
 import com.dongs.drpc.model.RpcResponse;
 import com.dongs.drpc.serializer.JdkSerializer;
 import com.dongs.drpc.serializer.Serializer;
+import com.dongs.drpc.serializer.SerializerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -35,7 +37,7 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(method.getDeclaringClass().getName())
