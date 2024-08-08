@@ -1,0 +1,2 @@
+json=com.dongs.drpc.serializer.JsonSerializer
+kryo=com.dongs.drpc.serializer.KryoSerializer
