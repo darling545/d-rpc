@@ -18,28 +18,28 @@ public class SerializerFactory {
     /**
      * 序列化映射（实现单例模式）
      */
-//    static {
-//        SpiLoader.load(Serializer.class);
-//    }
-
-
-    private static Map<String,Class<?>> serializerMap = new HashMap<>();
-
-    private static Lock lock = new ReentrantLock();
-
-    public static Map<String,Class<?>> getSerializerMap(){
-        if (serializerMap.isEmpty()){
-            lock.lock();
-            try{
-                if (serializerMap.isEmpty()){
-                    serializerMap = SpiLoader.load(Serializer.class);
-                }
-            }finally {
-                lock.unlock();
-            }
-        }
-        return serializerMap;
+    static {
+        SpiLoader.load(Serializer.class);
     }
+
+
+//    private static Map<String,Class<?>> serializerMap = new HashMap<>();
+//
+//    private static Lock lock = new ReentrantLock();
+//
+//    public static Map<String,Class<?>> getSerializerMap(){
+//        if (serializerMap.isEmpty()){
+//            lock.lock();
+//            try{
+//                if (serializerMap.isEmpty()){
+//                    serializerMap = SpiLoader.load(Serializer.class);
+//                }
+//            }finally {
+//                lock.unlock();
+//            }
+//        }
+//        return serializerMap;
+//    }
 
 
     /**

@@ -21,12 +21,9 @@ public class EasyConsumerExample {
         User newUser = userService.getUser(user);
 
         if(newUser != null){
-            System.out.println(newUser.getName());
+            System.out.println("============================================"+newUser.getName());
         }else {
             System.out.println("newUser == null");
         }
-
-        long number = userService.getNumber();
-        System.out.println(number);
     }
 }
