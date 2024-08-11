@@ -11,19 +11,22 @@ public class EasyConsumerExample {
         // 通过rpc获取到userService的实例对象
         // 静态代理
 //        UserService userService = new UserServiceProxy();
-        // 动态代理
-        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
 
-        User user = new User();
+        for (int i = 0; i < 5; i++) {
+            // 动态代理
+            UserService userService = ServiceProxyFactory.getProxy(UserService.class);
 
-        user.setName("dongs");
+            User user = new User();
 
-        User newUser = userService.getUser(user);
+            user.setName("dongs");
 
-        if(newUser != null){
-            System.out.println("============================================"+newUser.getName());
-        }else {
-            System.out.println("newUser == null");
+            User newUser = userService.getUser(user);
+
+            if (newUser != null) {
+                System.out.println("============================================" + newUser.getName());
+            } else {
+                System.out.println("newUser == null");
+            }
         }
     }
 }
