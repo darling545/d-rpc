@@ -9,6 +9,7 @@ import com.dongs.drpc.registry.Registry;
 import com.dongs.drpc.registry.RegistryFactory;
 import com.dongs.drpc.server.HttpServer;
 import com.dongs.drpc.server.VertxHttpServer;
+import com.dongs.drpc.server.tcp.VertxTcpServer;
 import com.dongs.example.common.service.UserService;
 
 public class EasyProviderExample {
@@ -35,10 +36,10 @@ public class EasyProviderExample {
             e.printStackTrace();
         }
 
-        // 启动服务
-        HttpServer httpServer = new VertxHttpServer();
+        // 启动TCP服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
 
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        vertxTcpServer.doStart(8080);
 
 
 
