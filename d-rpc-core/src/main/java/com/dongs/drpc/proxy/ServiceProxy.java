@@ -7,6 +7,10 @@ import cn.hutool.http.HttpResponse;
 import com.dongs.drpc.RpcApplication;
 import com.dongs.drpc.config.RpcConfig;
 import com.dongs.drpc.constant.RpcConstant;
+import com.dongs.drpc.fault.retry.RetryStrategy;
+import com.dongs.drpc.fault.retry.RetryStrategyFactory;
+import com.dongs.drpc.fault.tolerant.TolerantStrategy;
+import com.dongs.drpc.fault.tolerant.TolerantStrategyFactory;
 import com.dongs.drpc.loadbalancer.LoadBalancer;
 import com.dongs.drpc.loadbalancer.LoadBalancerFactory;
 import com.dongs.drpc.model.RpcRequest;
@@ -72,7 +76,7 @@ public class ServiceProxy implements InvocationHandler {
                 .build();
 
 
-        try{
+
             // 从注册中心获取服务提供者的请求地址
             RpcConfig rpcConfig = RpcApplication.getRpcConfig();
             Registry registry = RegistryFactory.getInstance(rpcConfig.getRegistryConfig().getRegistryType());
@@ -90,11 +94,17 @@ public class ServiceProxy implements InvocationHandler {
             requestParams.put("methodName",rpcRequest.getMethodName());
             ServiceMetaInfo selectServiceMetaInfo = loadBalancer.selectService(requestParams,serviceMetaInfoList);
             // 发送TCP请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo);
+            RpcResponse rpcResponse;
+            try {
+                RetryStrategy retryStrategy = RetryStrategyFactory.getRetryStrategy(rpcConfig.getRetryStrategy());
+                rpcResponse = retryStrategy.daRetry(() ->
+                        VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo)
+                );
+            }catch (Exception e){
+                // 容错策略
+                TolerantStrategy tolerantStrategy = TolerantStrategyFactory.getTolerantStrategy(rpcConfig.getTolerantStrategy());
+                rpcResponse = tolerantStrategy.doTolerant(null,e);
+            }
             return rpcResponse.getData();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
     }
 }

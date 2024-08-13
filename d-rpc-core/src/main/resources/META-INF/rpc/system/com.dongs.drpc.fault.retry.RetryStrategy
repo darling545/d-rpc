@@ -1,0 +1,2 @@
+noRetry=com.dongs.drpc.fault.retry.NoRetryStrategy
+fixedInterval=com.dongs.drpc.fault.retry.FixedIntervalRetryStrategy

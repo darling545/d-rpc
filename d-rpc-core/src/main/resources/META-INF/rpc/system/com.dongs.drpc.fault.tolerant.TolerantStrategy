@@ -1,0 +1,2 @@
+failFast=com.dongs.drpc.fault.tolerant.FailFastTolerantStrategy
+failSafe=com.dongs.drpc.fault.tolerant.FailSafeTolerantStrategy
