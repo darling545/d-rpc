@@ -1,0 +1,3 @@
+roundRobin=com.dongs.drpc.loadbalancer.RoundRobinLoadBalancer
+random=com.dongs.drpc.loadbalancer.RandomLoadBalancer
+consistentHash=com.dongs.drpc.loadbalancer.ConsistentHashLoadBalancer

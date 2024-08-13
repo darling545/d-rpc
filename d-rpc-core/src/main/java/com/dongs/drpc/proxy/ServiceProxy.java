@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.dongs.drpc.RpcApplication;
 import com.dongs.drpc.config.RpcConfig;
 import com.dongs.drpc.constant.RpcConstant;
+import com.dongs.drpc.loadbalancer.LoadBalancer;
+import com.dongs.drpc.loadbalancer.LoadBalancerFactory;
 import com.dongs.drpc.model.RpcRequest;
 import com.dongs.drpc.model.RpcResponse;
 import com.dongs.drpc.model.ServiceMetaInfo;
@@ -25,7 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -79,7 +83,12 @@ public class ServiceProxy implements InvocationHandler {
             if (CollUtil.isEmpty(serviceMetaInfoList)){
                 throw new RuntimeException("服务不存在");
             }
-            ServiceMetaInfo selectServiceMetaInfo = serviceMetaInfoList.get(0);
+//            ServiceMetaInfo selectServiceMetaInfo = serviceMetaInfoList.get(0);
+            // 负载均衡器
+            LoadBalancer loadBalancer = LoadBalancerFactory.getLoadBalancer(rpcConfig.getLoadBalancer());
+            Map<String,Object> requestParams = new HashMap<>();
+            requestParams.put("methodName",rpcRequest.getMethodName());
+            ServiceMetaInfo selectServiceMetaInfo = loadBalancer.selectService(requestParams,serviceMetaInfoList);
             // 发送TCP请求
             RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo);
             return rpcResponse.getData();
