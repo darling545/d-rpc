@@ -10,7 +10,6 @@ import com.dongs.drpc.registry.LocalRegistry;
 import com.dongs.drpc.registry.Registry;
 import com.dongs.drpc.registry.RegistryFactory;
 import com.dongs.drpc.server.HttpServer;
-import com.dongs.drpc.server.VertxHttpServer;
 import com.dongs.drpc.server.tcp.VertxTcpServer;
 import com.dongs.example.common.service.UserService;
 

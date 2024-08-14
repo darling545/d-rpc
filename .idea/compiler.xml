@@ -10,7 +10,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="d-rpc-core" />
+        <module name="dongs-rpc-spring-boot-starter" />
         <module name="d-rpc-easy" />
+        <module name="example-springboot-provider" />
+        <module name="example-springboot-consumer" />
         <module name="example-provider" />
         <module name="example-common" />
         <module name="example-consumer" />

@@ -9,6 +9,7 @@ import com.dongs.drpc.protocol.*;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
+import io.vertx.core.net.NetSocket;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class VertxTcpClient {
                 result -> {
                     if (result.succeeded()){
                         System.out.println("连接成功");
-                        io.vertx.core.net.NetSocket socket = result.result();
+                        NetSocket socket = result.result();
                         // 发送消息
                         // 构造消息
                         ProtocolMessage<RpcRequest> protocolMessage = new ProtocolMessage<>();
@@ -52,16 +53,28 @@ public class VertxTcpClient {
                             throw new RuntimeException("协议消息编码失败");
                         }
                         // 读取响应
-                        socket.handler(buffer -> {
-                            log.info("解码的信息" + buffer.toString());
-                            ProtocolMessage<RpcResponse> responseProtocolMessage = null;
-                            try {
-                                responseProtocolMessage = (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
-                                responseFuture.complete(responseProtocolMessage.getBody());
-                            } catch (IOException ex) {
-                                throw new RuntimeException("协议消息解码失败");
-                            }
-                        });
+//                        socket.handler(buffer -> {
+//                            log.info("解码的信息" + buffer.toString());
+//                            ProtocolMessage<RpcResponse> responseProtocolMessage = null;
+//                            try {
+//                                responseProtocolMessage = (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
+//                                responseFuture.complete(responseProtocolMessage.getBody());
+//                            } catch (IOException ex) {
+//                                throw new RuntimeException("协议消息解码失败");
+//                            }
+//                        });
+                        TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(
+                                buffer -> {
+                                    try{
+                                        ProtocolMessage<RpcResponse> responseProtocolMessage =
+                                                (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
+                                        responseFuture.complete(responseProtocolMessage.getBody());
+                                    }catch (IOException e){
+                                        throw new RuntimeException("协议消息解码失败");
+                                    }
+                                }
+                        );
+                        socket.handler(bufferHandlerWrapper);
                     }else {
                         log.info(String.valueOf(result.cause()));
                         System.out.println("连接失败");
