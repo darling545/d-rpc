@@ -9,7 +9,7 @@
 
 根据 Dubbo 服务框架编码设计的简易版RPC框架。
 
-<img src="C:\Users\1\Desktop\RPC时序图.png"/>
+<img src="img/RPC时序图.png"/>
 <hr/>
 
 ### 功能&设计🚀
@@ -61,7 +61,7 @@ d-rpc-master框架
 支持简易扩展点，泛化调用等功能<br/>
 ### 设计：
 crpc框架调用流程：
-<img src="C:\Users\1\Desktop\RPC流程图.png"/>
+<img src="img/RPC流程图.png"/>
 1.代理层：负责对底层调用细节的封装；<br/>
 2.路由(请求处理器)层：负责在集群目标服务中的调用筛选策略；<br/>
 3.协议层：负责请求数据的转码封装等作用；<br/>
